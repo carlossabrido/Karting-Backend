@@ -1,21 +1,21 @@
-// import jwt from 'jsonwebtoken'
-// import confs from './conf.js'
-// import { Response, NextFunction} from 'express'
+import jwt from 'jsonwebtoken'
+import confs from './conf.js'
+import { Response, NextFunction} from 'express'
 
-// export const auth = (req, res: Response, next: NextFunction)=>{
+export const auth = (req, res: Response, next: NextFunction)=>{
     
-//     if(!req.headers.authorization) return next(new Error('AUTH_REQUIRED'));
-//     const token = req.headers.authorization.split(' ')[1];
-//     if(!token) return next(new Error('AUTH_REQUIRED'));
-//     try {
-//         req.token= jwt.verify(token, confs.SECRET)
-//         next();
-//     } catch(e){
+    if(!req.headers.authorization) return next(new Error('AUTH_REQUIRED'));
+    const token = req.headers.authorization.split(' ')[1];
+    if(!token) return next(new Error('AUTH_REQUIRED'));
+    try {
+        req.token= jwt.verify(token, confs.SECRET)
+        next();
+    } catch(e){
 
-//         return next(new Error('TOKEN_INVALID'));
-//     }
+        return next(new Error('TOKEN_INVALID'));
+    }
     
-// }
+}
 
 // export const handlerError = (err, req, res, next)=>{
 //     if(err.message === 'AUTH_REQUIRED') return res.status(403).json({error: 'AUTH_REQUIRED'})
