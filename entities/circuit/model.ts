@@ -10,3 +10,5 @@ const Circuit= mongoose.model('Circuit', new mongoose.Schema({
     deleted_at:Date,
 },
 { versionKey:false}))
+
+export default Circuit
