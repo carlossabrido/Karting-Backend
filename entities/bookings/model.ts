@@ -1,0 +1,32 @@
+import mongoose, { Schema } from "mongoose";
+
+const Bookings = mongoose.model(
+    'Bookings',
+    new mongoose.Schema(
+        {
+            type: {
+                type: Schema.Types.Mixed,
+                require:true,
+                ref: 'Circuit'
+            },
+            client:{
+                type: Schema.Types.Mixed,
+                require: true,
+                ref: 'User'
+            },
+            start_date:{
+                type:Date
+            },
+            end_date:{
+                type: Date
+            },
+            created_at:Date,
+            updated_at:Date,
+            deleted_at:Date,
+        },
+        {versionKey: false}
+    )
+
+)
+
+export default Bookings
