@@ -63,6 +63,24 @@ export const updateUser = async (data)=>{
         );
         return updateUser;
       } else throw new Error("INVALID_USER_ROLE")
+    }
+
+
+export const deleteteUser = async (data)=>{
+    if (data.token.role !== "admin" && data.params.id === data.token.id || data.token.role === "admin") {
+        const user = await User.findOne({ _id: data.params.id });
+        if (!user) {
+          throw new Error("USER_NOT_FOUND");
+        }
+        data.body.password = await bcrypt.hash(data.body.password, config.SALT_ROUND);
+        data.body.deleted_at = new Date();
+        const updateUser = await User.findOneAndUpdate(
+          { _id: data.params.id },
+          { $set: data.body },
+          { returnDocument: "after" }
+        );
+        return updateUser;
+      } else throw new Error("INVALID_USER_ROLE")
     };
 
   
