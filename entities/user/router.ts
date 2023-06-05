@@ -1,6 +1,6 @@
 
 import  express  from "express";
-import { createUser, login,  userList } from "./controller.js";
+import { createUser, login, updateUser, userList } from "./controller.js";
 import { auth } from "../../core/middleware.js";
 
 
@@ -36,13 +36,13 @@ router.post('/login',async(req,res,next)=>{
 })
 
 
-// router.put('/:id',auth,async(req,res,next)=>{
-//     try{
-//         res.json(await updateUser(req))
-//     }
-//     catch(e){
-//         next(e)
-//     }
-// })
+router.put('/:id',auth,async(req,res,next)=>{
+    try{
+        res.json(await updateUser(req))
+    }
+    catch(e){
+        next(e)
+    }
+})
 
 export default router
