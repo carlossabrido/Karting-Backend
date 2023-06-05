@@ -4,6 +4,28 @@ import bcrypt from "bcrypt"
 import config from "../../core/conf.js";
 import jwt from "jsonwebtoken";
 
+
+export const userList = async (req) => {
+    const regExpName = new RegExp(req.query.name, "i");
+    if (req.token.role != "admin") {
+      return User.find(
+        { _id: req.token.id },
+        { updated_at: 0, password: 0, deleted_at: 0, created_at: 0 }
+      );
+    } else {
+      return User.find(
+        {
+          $or: [
+            { name: regExpName },
+            { lastname: regExpName }
+          ],
+          deleted_at: null,
+        },
+        { updated_at: 0, password: 0, deleted_at: 0, created_at: 0 }
+      );
+    }
+  };
+
 export const createUser= async (data)=>{
     if(!data.password|| data.password.lengh<5)
     throw new Error("INVALID PASSWORD");
@@ -25,3 +47,5 @@ export const login = async (data)=>{
       );
       return { token };
 }
+
+export const updateUser =     
