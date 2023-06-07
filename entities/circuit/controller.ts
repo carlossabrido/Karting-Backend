@@ -1,6 +1,5 @@
 import express from 'express'
-import Circuit from "./model.js";
-
+import Circuit from './model.js';
 
 
  export const createCircuit= async(data)=>{

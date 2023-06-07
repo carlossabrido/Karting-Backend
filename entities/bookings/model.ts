@@ -9,6 +9,12 @@ const Bookings = mongoose.model(
                 require:true,
                 ref: 'Circuit'
             },
+            name:{
+                type: Schema.Types.Mixed,
+                require:true,
+                ref: 'Circuit'
+
+            },
             client:{
                 type: Schema.Types.Mixed,
                 require: true,
