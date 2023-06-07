@@ -1,6 +1,6 @@
 import express  from "express";
 import { auth } from "../../core/middleware.js";
-import { createBooking, listBookings } from "./controller.js";
+import { createBooking, listBookings, modifyBooking } from "./controller.js";
 
 const router=express.Router()
 
@@ -19,6 +19,15 @@ router.get("/", auth, async(req, res, next) => {
         next(e)
     } 
 });
+
+router.put("/:id", auth,async(req,res,next)=>{
+    try{
+        res.json(await modifyBooking(req))
+    }
+    catch(e){
+        next(e)
+    }
+})
 
 
 export default router

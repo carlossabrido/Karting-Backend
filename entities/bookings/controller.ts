@@ -52,3 +52,31 @@ export const createBooking = async (data) => {
       .populate(populateOptions)
       .sort({ start_date: -1 });
   };
+
+  export const modifyBooking= async(data)=>{
+    if(data.body.start_date > data.body.end_date){
+      throw new Error ('INVALID_DATE')
+    }
+
+    const booking :any = await Bookings.findOne({ _id: data.params.id, deleted_at: null})
+    if(!booking){throw new Error("BOOKING_NOT_FOUNDDD")}
+    console.log(booking,'djnsjlknl')
+
+    if(data.token.role== 'client' && booking.client != data.token.id || data.token.role == 'admin' && booking.admin  != data.token._id ){
+      throw new Error ("AUTH_REQUIRED")
+    }
+
+    const bookingExist : any= await listBookings(data.body)
+    if(bookingExist.length >0){
+      throw new Error ('ALREADY_EXIST')
+    }
+
+    data.body.updated_at= new Date()
+    data.body.client = data.token.id;
+    const updatedBooking= await Bookings.findByIdAndUpdate({_id: data.params.id, client: data.token.id },{$set:data.body},{new:true})
+    return updatedBooking
+
+  }
+
+
+  
