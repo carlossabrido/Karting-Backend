@@ -20,9 +20,7 @@ export const createBooking = async (data) => {
     export const listBookings= async (data) => {
     const bookingType = new RegExp(data.query.type, "i");
     const bookingClient = new RegExp(data.query.client, "i");
-    // const startDate = new Date(data.query.start_date);
-    // const endDate = new Date(data.query.end_date);
-  
+    
     let filter: any = {
       deleted_at: null
     };
@@ -66,17 +64,32 @@ export const createBooking = async (data) => {
       throw new Error ("AUTH_REQUIRED")
     }
 
-    const bookingExist : any= await listBookings(data.body)
-    if(bookingExist.length >0){
-      throw new Error ('ALREADY_EXIST')
-    }
-
     data.body.updated_at= new Date()
     data.body.client = data.token.id;
     const updatedBooking= await Bookings.findByIdAndUpdate({_id: data.params.id, client: data.token.id },{$set:data.body},{new:true})
     return updatedBooking
 
   }
+
+
+  export const deleteBooking = async(data)=>{
+
+    const booking : any= Bookings.findOne({_id:data.params.id,deleted_at:null})
+
+    if(!booking){
+      throw new Error("BOOKING_DONT_EXIST")
+    }
+    if(data.token.role== 'client' && booking.client != data.token.id || data.token.role == 'admin' && booking.admin  != data.token._id ){
+      throw new Error ("AUTH_REQUIRED")
+    }
+    data.body.deleted_at= new Date()
+    data.body.client = data.token.id;
+    const deletedBookings= await Bookings.findByIdAndUpdate({_id: data.params.id, client: data.token.id },{$set:data.body},{new:true})
+    return deletedBookings
+    
+
+  }
+
 
 
   
