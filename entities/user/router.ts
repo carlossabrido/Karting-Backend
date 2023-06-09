@@ -1,6 +1,6 @@
 
 import  express  from "express";
-import { createUser, deleteteUser, login, updateUser, userList } from "./controller.js";
+import { createUser, deleteteUser, login, updateUser, userList, userListByID } from "./controller.js";
 import { auth } from "../../core/middleware.js";
 
 
@@ -15,7 +15,15 @@ router.get('/', auth ,async (req,res,next)=>{
         next(e)
     }
 });
+router.get('/:id' ,auth,async(req,res,next)=>{
+    try{
+        res.json(await userListByID(req))
+    }
+    catch(e){
+        next(e)
+  }
 
+})
 
 router.post('/', async (req,res,next)=>{
     try{
