@@ -42,7 +42,7 @@ export const createBooking = async (data) => {
     const projection = { type: 1, start_date: 1, end_date: 1 };
   
     const populateOptions = [
-      { path: "client", select: ["name", "lastname"] },
+      { path: "client", select: ["name", "lastname","email"] },
       { path: "type", select: ["circuit"] }
     ];
   

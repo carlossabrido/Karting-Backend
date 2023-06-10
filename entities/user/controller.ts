@@ -26,6 +26,20 @@ export const userList = async (req) => {
     }
   };
 
+  export const userListByID = async (req) => {
+    if (req.token.role == "client" && req.params.id == req.token.id) {
+      return User.findById(
+        { _id: req.params.id },
+        {  updated_at: 0, password: 0, deleted_at: 0, created_at: 0 }
+      );
+    } else if (req.token.role !== "client") {
+      return User.findById(
+        { _id: req.params.id },
+        { created_at: 0, deleted_at: 0, updated_at: 0 }
+      );
+    } else throw new Error("USER_NOT_FOUND");
+  };
+
 export const createUser= async (data)=>{
     if(!data.password|| data.password.lengh<5)
     throw new Error("INVALID PASSWORD");
