@@ -21,7 +21,8 @@ const Bookings = mongoose.model(
                 ref: 'User'
             },
             start_date:{
-                type:Date
+                type:Date,
+                require:true
             },
             end_date:{
                 type: Date
