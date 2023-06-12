@@ -24,9 +24,9 @@ const Bookings = mongoose.model(
                 type:Date,
                 require:true
             },
-            end_date:{
-                type: Date
-            },
+            // end_date:{
+            //     type: Date
+            // },
             created_at:Date,
             updated_at:Date,
             deleted_at:Date,
