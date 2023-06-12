@@ -18,8 +18,8 @@ export const createBooking = async (data) => {
   };
 
     export const listBookings= async (data) => {
-    const bookingType = new RegExp(data.query.type.circuit, "i");
-    const bookingClient = new RegExp(data.query.client.name, "i");
+    const bookingType = new RegExp(data.query.type, "i");
+    const bookingClient = new RegExp(data.query, "i");
     
     let filter: any = {
       deleted_at: null
