@@ -1,0 +1,1 @@
+import Opinion from "./model.js";

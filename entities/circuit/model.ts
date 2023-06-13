@@ -8,7 +8,7 @@ const Circuit= mongoose.model('Circuit', new mongoose.Schema({
     },
     name:{
         type:String,
-        required: true,
+        
     },
     created_at: Date,
     deleted_at:Date,

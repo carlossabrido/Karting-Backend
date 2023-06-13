@@ -6,7 +6,7 @@ const router=express.Router()
 
 router.get('/',async(req,res,next)=>{
     try{
-         res.json(listCircuit())
+       res.json(await listCircuit())
     }
     catch(e){
         next(e)
