@@ -2,7 +2,8 @@ import  confg  from "./core/conf.js";
 import  express  from "express";
 import userRouter from "./entities/user/router.js";
 import bookingsRouter from "./entities/bookings/router.js";
-import circuitRouter from "./entities/circuit/router.js";
+import circuitRouter from "./entities/circuit/router.js"
+import opinionRouter from "./entities/opinions/router.js"
 import mongoose, { ConnectOptions } from "mongoose";
 import cors from 'cors'
 
@@ -34,5 +35,6 @@ app.use(cors(corsOptions))
 app.use('/user',userRouter)
 app.use('/bookings',bookingsRouter)
 app.use('/circuit',circuitRouter)
+app.use('/opinion',opinionRouter)
 
 app.listen(confg.PORT,()=>console.log(`server up on port ${confg.PORT} ✔`))
