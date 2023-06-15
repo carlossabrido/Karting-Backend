@@ -6,10 +6,10 @@ const Circuit= mongoose.model('Circuit', new mongoose.Schema({
         type:String,
         required: true,
     },
-    name:{
-        type:String,
+    // name:{
+    //     type:String,
         
-    },
+    // },
     created_at: Date,
     deleted_at:Date,
 },
