@@ -17,7 +17,8 @@ export const userList = async (req) => {
         {
           $or: [
             { name: regExpName },
-            { lastname: regExpName }
+            { lastname: regExpName },
+            { email: regExpName }
           ],
           deleted_at: null,
         },
@@ -81,20 +82,18 @@ export const updateUser = async (data)=>{
 
 
 export const deleteteUser = async (data)=>{
-    if (data.token.role !== "admin" && data.params.id === data.token.id || data.token.role === "admin") {
-        const user = await User.findOne({ _id: data.params.id });
-        if (!user) {
-          throw new Error("USER_NOT_FOUND");
-        }
-        data.body.password = await bcrypt.hash(data.body.password, config.SALT_ROUND);
-        data.body.deleted_at = new Date();
-        const updateUser = await User.findOneAndUpdate(
-          { _id: data.params.id },
-          { $set: data.body },
-          { returnDocument: "after" }
-        );
-        return updateUser;
-      } else throw new Error("INVALID_USER_ROLE")
+  const user : any= User.findOne({_id:data.params.id,deleted_at:null})
+
+  if(!user){
+    throw new Error("BOOKING_DONT_EXIST")
+  }
+  if(data.token.role== 'client' && user.client != data.token.id || data.token.role == 'admin' && user.admin  != data.token._id ){
+    throw new Error ("AUTH_REQUIRED")
+  }
+  data.body.deleted_at= new Date()
+  data.body.client = data.token.id;
+  const deletedBookings= await User.findByIdAndUpdate({_id: data.params.id, client: data.token.id },{$set:data.body},{new:true})
+  return deletedBookings
     };
 
   

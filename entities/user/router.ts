@@ -52,7 +52,7 @@ router.put('/:id',auth,async(req,res,next)=>{
         next(e)
     }
 })
-router.put('/:id',auth,async(req,res,next)=>{
+router.delete('/:id',auth,async(req,res,next)=>{
     try{
         res.json(await deleteteUser(req))
     }
