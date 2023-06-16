@@ -20,12 +20,12 @@ import cors from 'cors'
 //     });
 
 const app=express()
-app.get('/', (__req:Request ,res:Response)=>{
-  return res.send('hola')
-})
-app.get('/welcome', (__req:Request ,res:Response)=>{
-  return res.send('wue pasa')
-})
+// app.get('/', (__req:Request ,res:Response)=>{
+//   return res.send('hola')
+// })
+// app.get('/welcome', (__req:Request ,res:Response)=>{
+//   return res.send('wue pasa')
+// })
 
 
     let corsOptions = {
