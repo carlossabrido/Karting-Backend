@@ -1,5 +1,10 @@
 import Bookings from "./model.js";
 export const createBooking = async (data) => {
+    // const today= new Date()
+    // const BookingDate= new Date(data.start_date)
+    //   if(BookingDate < today){
+    //     throw new Error ('INVALID_DATE')
+    //   }
     if (data.token.role === 'client') {
         data.body.client = data.token.id;
     }
