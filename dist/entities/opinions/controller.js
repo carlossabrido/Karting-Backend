@@ -2,6 +2,7 @@ import Opinion from "./model.js";
 export const createOpinion = (data) => {
     if (data.token.role == 'client' || data.token.role == 'admin') {
         data.body.created_at = new Date();
+        data.body.email = data.token.email;
         return Opinion.create(data.body);
     }
     else {
@@ -13,12 +14,10 @@ export const createOpinion = (data) => {
 //             return  Opinion.create(data.body)
 // }
 export const listOpinions = async () => {
-    const projection = { circuit: 1, start_date: 1 };
     const populateOptions = [
-        { path: "title", select: ["email", "title"] },
-        { path: "opinion", select: ["email", "title"] },
+        { path: "email", select: ["email"] },
     ];
-    return Opinion.find({ deleted_at: null }, projection)
+    return Opinion.find({ deleted_at: null })
         .populate(populateOptions);
 };
 //# sourceMappingURL=controller.js.map

@@ -2,17 +2,22 @@ import mongoose from "mongoose";
 
 const Opinion= mongoose.model('Opinion', new mongoose.Schema({
     title:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:String,
         required: true,
-        ref:'User'
+        
         
     },
 
     opinion:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:String,
         required: true,
-        ref:'User'
         
+        
+    },
+    email:{
+        type:String,
+        required: true,
+
     },
 
 

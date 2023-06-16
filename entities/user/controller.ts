@@ -54,7 +54,7 @@ export const login = async (data)=>{
     if(!user) throw new Error ('USER_NOT_FOUND')
     if(!(await bcrypt.compare (data.password, user.password)))
     throw new Error ("USER_NOT_FOUND");
-    const token= jwt.sign({ id: user._id, name: user.name, role: user.role },
+    const token= jwt.sign({ id: user._id, name: user.name, role: user.role, email:user.email },
         config.SECRET,
         {
           expiresIn: "24h",

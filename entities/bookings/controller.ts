@@ -3,9 +3,7 @@ import Bookings from "./model.js";
 
 
 export const createBooking = async (data) => {
-  // if(data.start_date > data.end_date){
-  //   throw new Error ('INVALID_DATE')
-  // }
+
   if(data.token.role === 'client'){
     data.body.client = data.token.id;
   }
