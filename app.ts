@@ -1,23 +1,32 @@
 import  confg  from "./core/conf.js";
-import  express  from "express";
+import  express, {Request, Response } from "express";
 import userRouter from "./entities/user/router.js";
 import bookingsRouter from "./entities/bookings/router.js";
 import circuitRouter from "./entities/circuit/router.js"
 import opinionRouter from "./entities/opinions/router.js"
-import mongoose, { ConnectOptions } from "mongoose";
+// import mongoose, { ConnectOptions } from "mongoose";
 import cors from 'cors'
 
 
-const mongooseConnection = mongoose.connect(confg.DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  } as ConnectOptions);
+// const mongooseConnection = mongoose.connect(confg.DB, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   } as ConnectOptions);
   
-  mongooseConnection
-    .then(() => console.log("Mongoose connection ✔"))
-    .catch((err) => {
-      console.log("Not working ✘", err);
-    });
+//   mongooseConnection
+//     .then(() => console.log("Mongoose connection ✔"))
+//     .catch((err) => {
+//       console.log("Not working ✘", err);
+//     });
+
+const app=express()
+app.get('/', (__req:Request ,res:Response)=>{
+  return res.send('hola')
+})
+app.get('/welcome', (__req:Request ,res:Response)=>{
+  return res.send('wue pasa')
+})
+
 
     let corsOptions = {
         origin: "*",
@@ -29,7 +38,7 @@ const mongooseConnection = mongoose.connect(confg.DB, {
     };
 
 
-const app=express()
+
 app.use(express.json())
 app.use(cors(corsOptions))
 app.use('/user',userRouter)

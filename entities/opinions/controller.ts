@@ -1,4 +1,5 @@
 import Opinion from "./model.js";
+import User from "../user/model.js";
 
 
 export const createOpinion=(data)=>{
@@ -18,6 +19,15 @@ export const createOpinion=(data)=>{
 // }
 
 export const listOpinions= async()=>{
-    return Opinion.find({deleted_at:null})
+    const projection = { circuit: 1, start_date: 1};
+  
+    const populateOptions = [
+     { path: "title", select: ["email","title"] },
+     { path: "opinion", select: ["email","title"] },
+      
+     
+    ]
+    return Opinion.find({deleted_at:null},projection)
+    .populate(populateOptions)
     
 }
