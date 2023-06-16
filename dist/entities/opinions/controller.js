@@ -14,10 +14,10 @@ export const createOpinion = (data) => {
 //             return  Opinion.create(data.body)
 // }
 export const listOpinions = async () => {
-    const populateOptions = [
-        { path: "email", select: ["email"] },
-    ];
-    return Opinion.find({ deleted_at: null })
-        .populate(populateOptions);
+    // const populateOptions = [
+    //  { path: "email", select: ["email"] },
+    // ]
+    return Opinion.find({ deleted_at: null }).sort({ created_at: -1 });
+    // .populate(populateOptions)
 };
 //# sourceMappingURL=controller.js.map

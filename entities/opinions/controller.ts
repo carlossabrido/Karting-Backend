@@ -21,14 +21,11 @@ export const createOpinion=(data)=>{
 
 export const listOpinions= async()=>{
     
-  
-    const populateOptions = [
-     { path: "email", select: ["email"] },
+    // const populateOptions = [
+    //  { path: "email", select: ["email"] },
     
-      
-     
-    ]
-    return Opinion.find({deleted_at:null})
-    .populate(populateOptions)
+    // ]
+    return Opinion.find({deleted_at:null}).sort({created_at:-1})
+    // .populate(populateOptions)
     
 }
