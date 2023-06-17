@@ -24,8 +24,7 @@ export const deleteOpinions=async(data)=>{
         throw new Error('NOT_FOUND')
     }
     
-    if(data.token.role =='client' || data.token.role =='admin'){
-
+    if( data.token.role =='admin'){
 
     data.body.deleted_at= new Date()
     data.body.client = data.token.id;
