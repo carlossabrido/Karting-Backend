@@ -29,12 +29,12 @@ The point is make it works as a professional and eficient data base, so for show
 
 # Technologies used
 
-<img src="Media/js.png" alt="JavaScript" width="50">
-<img src="Media/descarga.png" alt="JavaScript" width="50">
-<img src="Media/nodo-js.png" alt="JavaScript" width="50">
+<img src="media/js.png" alt="JavaScript" width="50">
+<img src="media/descarga.png" alt="JavaScript" width="50">
+<img src="media/nodo-js.png" alt="JavaScript" width="50">
 
 # Inquires 
 
  If you got any inquires get in touch by Linkedn with any of us:
 
-<a href="https://www.linkedin.com/in/carlos-sabrido-medina-624b77258/"> Carlos' linkedin </a>
+<a href="https://www.linkedin.com/in/carlos-sabrido-medina-624b77258/"> Carlos Sabrido Medina linkedin </a>
