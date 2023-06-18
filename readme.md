@@ -1,3 +1,6 @@
+<img src="media/gueek.png" alt="JavaScript" width="2000">
+
+
 Project focused in create a Karting data base and make it works properly
 
 
@@ -15,7 +18,8 @@ The point is make it works as a professional and eficient data base, so for show
 - Clients should have access to their personal information
 - Clients can modify their own bookings
 - Clients can make a review
-- Admin can delete a review from
+- Clients can modify his personal information
+- Admin can delete a review from anyone
 - Admins can see information from anyone
 - Admin can modify bookings from anyone
 - Admin can delete any user

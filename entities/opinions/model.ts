@@ -3,15 +3,12 @@ import mongoose from "mongoose";
 const Opinion= mongoose.model('Opinion', new mongoose.Schema({
     title:{
         type:String,
-        required: true,
-        
-        
+        required: true,   
     },
 
     opinion:{
         type:String,
-        required: true,
-        
+        required: true,   
         
     },
     email:{
@@ -19,8 +16,6 @@ const Opinion= mongoose.model('Opinion', new mongoose.Schema({
         required: true,
 
     },
-
-
     created_at: Date,
     deleted_at:Date,
 },
