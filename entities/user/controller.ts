@@ -1,99 +1,115 @@
 import { error } from "console";
 import User from "./model.js";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 import config from "../../core/conf.js";
 import jwt from "jsonwebtoken";
 
-
 export const userList = async (req) => {
-    const regExpName = new RegExp(req.query.name, "i");
-    if (req.token.role != "admin") {
-      return User.find(
-        { _id: req.token.id },
-        { updated_at: 0, password: 0, deleted_at: 0, created_at: 0 }
-      );
-    } else {
-      return User.find(
-        {
-          $or: [
-            { name: regExpName },
-            { lastname: regExpName },
-            { email: regExpName }
-          ],
-          deleted_at: null,
-        },
-        { updated_at: 0, password: 0, deleted_at: 0, created_at: 0 }
-      );
-    }
-  };
+  const regExpName = new RegExp(req.query.name, "i");
+  if (req.token.role != "admin") {
+    return User.find(
+      { _id: req.token.id },
+      { updated_at: 0, password: 0, deleted_at: 0, created_at: 0 }
+    );
+  } else {
+    return User.find(
+      {
+        $or: [
+          { name: regExpName },
+          { lastname: regExpName },
+          { email: regExpName },
+        ],
+        deleted_at: null,
+      },
+      { updated_at: 0, password: 0, deleted_at: 0, created_at: 0 }
+    );
+  }
+};
 
-  export const userListByID = async (req) => {
-    if (req.token.role == "client" && req.params.id == req.token.id) {
-      return User.findById(
-        { _id: req.params.id },
-        {  updated_at: 0, password: 0, deleted_at: 0, created_at: 0 }
-      );
-    } else if (req.token.role !== "client") {
-      return User.findById(
-        { _id: req.params.id },
-        { created_at: 0, deleted_at: 0, updated_at: 0 }
-      );
-    } else throw new Error("USER_NOT_FOUND");
-  };
+export const userListByID = async (req) => {
+  if (req.token.role == "client" && req.params.id == req.token.id) {
+    return User.findById(
+      { _id: req.params.id },
+      { updated_at: 0, password: 0, deleted_at: 0, created_at: 0 }
+    );
+  } else if (req.token.role !== "client") {
+    return User.findById(
+      { _id: req.params.id },
+      { created_at: 0, deleted_at: 0, updated_at: 0 }
+    );
+  } else throw new Error("USER_NOT_FOUND");
+};
 
-export const createUser= async (data)=>{
-    if(!data.password|| data.password.lengh<5)
+export const createUser = async (data) => {
+  if (!data.password || data.password.lengh < 5)
     throw new Error("INVALID PASSWORD");
-    data.password= await bcrypt.hash(data.password, config.SALT_ROUND);
-    data.creted_at= new Date()
-    return User.create(data)
-}
+  data.password = await bcrypt.hash(data.password, config.SALT_ROUND);
+  data.creted_at = new Date();
+  return User.create(data);
+};
 
-export const login = async (data)=>{
-    const user= await User.findOne({email: data.email, deleted_at: null});
-    if(!user) throw new Error ('USER_NOT_FOUND')
-    if(!(await bcrypt.compare (data.password, user.password)))
-    throw new Error ("USER_NOT_FOUND");
-    const token= jwt.sign({ id: user._id, name: user.name, role: user.role, email:user.email },
-        config.SECRET,
-        {
-          expiresIn: "24h",
-        }
-      );
-      return { token };
-}
-
-export const updateUser = async (data)=>{
-    if (data.token.role !== "admin" && data.params.id === data.token.id || data.token.role === "admin") {
-        const user = await User.findOne({ _id: data.params.id });
-        if (!user) {
-          throw new Error("USER_NOT_FOUND");
-        }
-        data.body.password = await bcrypt.hash(data.body.password, config.SALT_ROUND);
-        data.body.updated_at = new Date();
-        const updateUser = await User.findOneAndUpdate(
-          { _id: data.params.id },
-          { $set: data.body },
-          { returnDocument: "after" }
-        );
-        return updateUser;
-      } else throw new Error("INVALID_USER_ROLE")
+export const login = async (data) => {
+  const user = await User.findOne({ email: data.email, deleted_at: null });
+  if (!user) throw new Error("USER_NOT_FOUND");
+  if (!(await bcrypt.compare(data.password, user.password)))
+    throw new Error("USER_NOT_FOUND");
+  const token = jwt.sign(
+    { id: user._id, name: user.name, role: user.role, email: user.email },
+    config.SECRET,
+    {
+      expiresIn: "24h",
     }
+  );
+  return { token };
+};
 
+export const updateUser = async (data) => {
+  if (
+    (data.token.role !== "admin" && data.params.id === data.token.id) ||
+    data.token.role === "admin"
+  ) {
+    const user = await User.findOne({ _id: data.params.id });
+    if (!user) {
+      throw new Error("USER_NOT_FOUND");
+    }
+    data.body.password = await bcrypt.hash(
+      data.body.password,
+      config.SALT_ROUND
+    );
+    data.body.updated_at = new Date();
+    const updateUser = await User.findOneAndUpdate(
+      { _id: data.params.id },
+      { $set: data.body },
+      { returnDocument: "after" }
+    );
+    return updateUser;
+  } else throw new Error("INVALID_USER_ROLE");
+};
 
-export const deleteteUser = async (data)=>{
-  const user : any= User.findOne({_id:data.params.id,deleted_at:null})
+export const deleteteUser = async (data) => {
+  const user: any = User.findOne({ _id: data.params.id, deleted_at: null });
 
-  if(!user){
-    throw new Error("BOOKING_DONT_EXIST")
+  if (!user) {
+    throw new Error("BOOKING_DONT_EXIST");
   }
-  if(data.token.role== 'client' && user.client != data.token.id || data.token.role == 'admin' && user.admin  != data.token._id ){
-    throw new Error ("AUTH_REQUIRED")
+  if (
+    (data.token.role == "client" && user.client != data.token.id) ||
+    (data.token.role == "admin" && user.admin != data.token._id)
+  ) {
+    throw new Error("AUTH_REQUIRED");
   }
-  data.body.deleted_at= new Date()
+  data.body.deleted_at = new Date();
   data.body.client = data.token.id;
-  const deletedBookings= await User.findByIdAndUpdate({_id: data.params.id, client: data.token.id },{$set:data.body},{new:true})
-  return deletedBookings
-    };
+  const deletedBookings = await User.findByIdAndUpdate(
+    { _id: data.params.id, client: data.token.id },
+    { $set: data.body },
+    { new: true }
+  );
+  return deletedBookings;
+};
 
+export const listAdmin = async (req) => {
   
+  const user = User.find({role :req.body.role='admin'})
+  return user
+};

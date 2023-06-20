@@ -18,10 +18,14 @@ export const listCircuit = () => {
 
 
 export const deleteCircuit = async (req) => {
-    if(req.token == "admin"){
-        const treatment = Circuit.findOne({_id: req.params.id})
+    console.log('hola')
+   
+    if(req.token.role == "admin"){
+        console.log('entra')
+        const circuito =await Circuit.findOne({_id: req.params.id})
+        
         req.body.deleted_at = new Date()
-        if (!treatment) throw new Error ('NOT_FOUND')
+        if (!circuito) throw new Error ('NOT_FOUND')
         await Circuit.findByIdAndUpdate(
             { _id: req.params.id },
             { $set: req.body },
@@ -29,3 +33,5 @@ export const deleteCircuit = async (req) => {
         );
     } else throw new Error ('PERMISSION_RESTRICTED')
 }
+
+
